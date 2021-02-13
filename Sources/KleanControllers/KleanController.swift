@@ -69,6 +69,12 @@ open class KleanController<
         return view as! UI
     }
     
+    @available(*, deprecated, renamed: "ui")
+    public var theView: UI {
+        return ui
+    }
+    
+
     // MARK: - Internal
 
     deinit {
