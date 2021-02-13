@@ -19,25 +19,13 @@ let package = Package(
             name: "KleanLogic",
             targets: [
                 "KleanLogic",
-            ]),
-        .library(
-            name: "KleanLogicServices",
-            targets: [
                 "KleanLogicServices",
             ]),
         .library(
             name: "KleanUI",
             targets: [
                 "KleanUI",
-            ]),
-        .library(
-            name: "KleanUIModels",
-            targets: [
                 "KleanUIModels",
-            ]),
-        .library(
-            name: "KleanUIPresenters",
-            targets: [
                 "KleanUIPresenters",
             ]),
         .library(
@@ -72,7 +60,7 @@ let package = Package(
                 "KleanFoundation",
             ]),
         .target(
-            name: "KleanUIPresenters",
+            name: "KleanUI",
             dependencies: [
                 "KleanFoundation",
                 "KleanUIModels",
@@ -83,13 +71,20 @@ let package = Package(
                 "KleanFoundation",
             ]),
         .target(
-            name: "KleanUI",
+            name: "KleanUIPresenters",
             dependencies: [
                 "KleanFoundation",
                 "KleanUIModels",
             ]),
         .testTarget(
             name: "KleanTests",
-            dependencies: ["KleanFoundation", "KleanLogic", "KleanLogicServices"]),
+            dependencies: [
+                "KleanFoundation",
+                "KleanLogic",
+                "KleanLogicServices",
+                "KleanUI",
+                "KleanUIModels",
+                "KleanUIPresenters",
+            ]),
     ]
 )
