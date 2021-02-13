@@ -19,13 +19,25 @@ let package = Package(
             name: "KleanLogic",
             targets: [
                 "KleanLogic",
+            ]),
+        .library(
+            name: "KleanLogicServices",
+            targets: [
                 "KleanLogicServices",
             ]),
         .library(
             name: "KleanUI",
             targets: [
                 "KleanUI",
+            ]),
+        .library(
+            name: "KleanUIModels",
+            targets: [
                 "KleanUIModels",
+            ]),
+        .library(
+            name: "KleanUIPresenters",
+            targets: [
                 "KleanUIPresenters",
             ]),
         .library(
