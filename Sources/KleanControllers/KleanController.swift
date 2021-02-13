@@ -10,7 +10,7 @@ import KleanUIModels
 import KleanUIPresenters
 
 open class KleanController<
-    View: KleanUI,
+    UI: KleanUI,
     Presenter: KleanUIPresenter,
     Logic: KleanLogic,
     Service: KleanLogicService,
@@ -39,7 +39,7 @@ open class KleanController<
     // MARK: - Open
     
     open override func loadView() {
-        self.view = View()
+        self.view = UI()
     }
     
     open override func viewDidLoad() {
@@ -65,8 +65,8 @@ open class KleanController<
     
     public var cancellables = Set<AnyCancellable>()
     
-    public var theView: View {
-        return view as! View
+    public var ui: UI {
+        return view as! UI
     }
     
     // MARK: - Internal
