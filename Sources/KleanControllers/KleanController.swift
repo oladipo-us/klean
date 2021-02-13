@@ -18,6 +18,24 @@ open class KleanController<
                                      Logic.Service == Service,
                                      Service.Gateway == Gateway
 {
+    
+    // MARK: - Open Builders
+    
+    open func buildLogic() -> Logic
+    {
+        return Logic()
+    }
+    
+    open func buildPresenter() -> Presenter
+    {
+        return Presenter()
+    }
+    
+    open func buildService() -> Service
+    {
+        return Service()
+    }
+    
     // MARK: - Open
     
     open override func loadView() {
@@ -34,13 +52,25 @@ open class KleanController<
         cancellables.formUnion(presenter.configure(logic: logic))
     }
     
-    // MARK: - Internal
+    // MARK: - Public
 
     public init(gateway g: Gateway) {
         gateway = g
         super.init(nibName: nil, bundle: Bundle.main)
     }
     
+    public lazy var logic: Logic = { buildLogic() }()
+    public lazy var presenter: Presenter = { buildPresenter() }()
+    public lazy var service: Service = { buildService() }()
+    
+    public var cancellables = Set<AnyCancellable>()
+    
+    public var theView: View {
+        return view as! View
+    }
+    
+    // MARK: - Internal
+
     deinit {
         cancellables.forEach { $0.cancel() }
         cancellables.removeAll()
@@ -50,32 +80,5 @@ open class KleanController<
         fatal_klean_notImplemented("init(coder:)")
     }
     
-    lazy var logic: Logic = { buildLogic() }()
-    lazy var presenter: Presenter = { buildPresenter() }()
-    lazy var service: Service = { buildService() }()
-    
-    var cancellables = Set<AnyCancellable>()
-    
-    var theView: View {
-        return view as! View
-    }
-    
     let gateway: Gateway
-    
-    // MARK: - Builders
-    
-    func buildLogic() -> Logic
-    {
-        return Logic()
-    }
-    
-    func buildPresenter() -> Presenter
-    {
-        return Presenter()
-    }
-    
-    func buildService() -> Service
-    {
-        return Service()
-    }
 }
