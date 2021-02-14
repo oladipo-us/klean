@@ -1,13 +1,9 @@
 import Foundation
 
-/*
- 2021.02.11:
- - This class is meant for use with collection views
- */
-public struct KleanLabelItemUIModel<Action: Hashable>: Hashable {
+public struct KleanLabelItemUIModel<Action: Hashable, Identifier: Identifiable & Hashable>: Hashable {
     
     public init(
-        identifier i: String = UUID().uuidString,
+        identifier i: Identifier,
         action a: Action,
         labelString ls: String)
     {
@@ -16,7 +12,7 @@ public struct KleanLabelItemUIModel<Action: Hashable>: Hashable {
         labelString = ls
     }
     
-    public let identifier: String
+    public let identifier: Identifier
     
     public let action: Action
     public let labelString: String
