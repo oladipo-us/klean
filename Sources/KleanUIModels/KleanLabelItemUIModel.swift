@@ -1,19 +1,18 @@
 import Foundation
 
-public struct KleanLabelItemUIModel<Action: Hashable, Identifier: Identifiable & Hashable>: Hashable {
+public struct KleanLabelItemUIModel<Action: Hashable, Context: Hashable>: Hashable {
     
     public init(
-        identifier i: Identifier,
         action a: Action,
+        context c: Context,
         labelString ls: String)
     {
-        identifier = i
         action = a
+        context = c
         labelString = ls
     }
     
-    public let identifier: Identifier
-    
     public let action: Action
+    public let context: Context
     public let labelString: String
 }
