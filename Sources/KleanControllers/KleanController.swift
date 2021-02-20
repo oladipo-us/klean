@@ -21,17 +21,35 @@ open class KleanController<
     
     // MARK: - Open Builders
     
+    @available(*, deprecated, renamed: "constructLogic")
     open func buildLogic() -> Logic
+    {
+        return constructLogic()
+    }
+    
+    @available(*, deprecated, renamed: "constructPresenter")
+    open func buildPresenter() -> Presenter
+    {
+        return constructPresenter()
+    }
+    
+    @available(*, deprecated, renamed: "constructService")
+    open func buildService() -> Service
+    {
+        return constructService()
+    }
+    
+    open func constructLogic() -> Logic
     {
         return Logic()
     }
     
-    open func buildPresenter() -> Presenter
+    open func constructPresenter() -> Presenter
     {
         return Presenter()
     }
     
-    open func buildService() -> Service
+    open func constructService() -> Service
     {
         return Service()
     }
@@ -59,9 +77,9 @@ open class KleanController<
         super.init(nibName: nil, bundle: Bundle.main)
     }
     
-    public lazy var logic: Logic = { buildLogic() }()
-    public lazy var presenter: Presenter = { buildPresenter() }()
-    public lazy var service: Service = { buildService() }()
+    public lazy var logic: Logic = { constructLogic() }()
+    public lazy var presenter: Presenter = { constructPresenter() }()
+    public lazy var service: Service = { constructService() }()
     
     public var cancellables = Set<AnyCancellable>()
     
