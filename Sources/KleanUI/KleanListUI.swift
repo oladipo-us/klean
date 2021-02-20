@@ -4,12 +4,23 @@ import UIKit
 import KleanFoundation
 import KleanUIModels
 
-public class KleanListUI<ActionType: Hashable, IdentifierType: Hashable, SectionType: Hashable>: KleanUI {
+open class KleanListUI<ActionType: Hashable, IdentifierType: Hashable, SectionType: Hashable>: KleanUI {
     
     // MARK: - Public
     
     public typealias DataSourceType = UICollectionViewDiffableDataSource<SectionType, KleanLabelItemUIModel<ActionType, IdentifierType>>
     public typealias ListCellRegistrationType = UICollectionView.CellRegistration<UICollectionViewListCell, KleanLabelItemUIModel<ActionType, IdentifierType>>
+    
+    required public init(translatesAutoresizingMaskIntoConstraints tamic: Bool = true) {
+        super.init(translatesAutoresizingMaskIntoConstraints: tamic)
+
+        list.autoresizingMask = [.flexibleWidth, .flexibleHeight]
+        addSubview(list)
+    }
+    
+    required public init?(coder: NSCoder) {
+        fatal_klean_notImplemented("init(coder:)")
+    }
     
     public lazy var listDataSource: DataSourceType = {
         buildListDataSource(
@@ -18,17 +29,6 @@ public class KleanListUI<ActionType: Hashable, IdentifierType: Hashable, Section
     }()
     
     // MARK: - Internal
-    
-    required init(translatesAutoresizingMaskIntoConstraints tamic: Bool = true) {
-        super.init(translatesAutoresizingMaskIntoConstraints: tamic)
-
-        list.autoresizingMask = [.flexibleWidth, .flexibleHeight]
-        addSubview(list)
-    }
-    
-    required init?(coder: NSCoder) {
-        fatal_klean_notImplemented("init(coder:)")
-    }
 
     lazy var list: UICollectionView = {
         buildList(listLayout: listLayout)
