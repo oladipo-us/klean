@@ -18,8 +18,7 @@ open class KleanController<
                                      Logic.Service == Service,
                                      Service.Gateway == Gateway
 {
-    
-    // MARK: - Open Builders
+    // MARK: - Open Constructors
     
     @available(*, deprecated, renamed: "constructLogic")
     open func buildLogic() -> Logic
@@ -63,17 +62,34 @@ open class KleanController<
     open override func viewDidLoad() {
         super.viewDidLoad()
         
-        
         service.configure(gateway: gateway)
 
         cancellables.formUnion(logic.configure(service: service))
         cancellables.formUnion(presenter.configure(logic: logic))
+        
+        cancellables.formUnion(
+            connect(
+                presenter: presenter,
+                ui: ui,
+                controller: self))
+    }
+    
+    open func connect(
+        presenter: Presenter,
+        ui: UI,
+        controller: KleanController<UI, Presenter, Logic, Service, Gateway>
+    ) -> Set<AnyCancellable>
+    {
+        fatal_klean_abstractMethod()
     }
     
     // MARK: - Public
 
-    public init(gateway g: Gateway) {
+    public init(gateway g: Gateway, isConnectImplemented ici: Bool = false) {
+        
         gateway = g
+        isConnectImplemented = ici
+        
         super.init(nibName: nil, bundle: Bundle.main)
     }
     
@@ -92,7 +108,6 @@ open class KleanController<
         return ui
     }
     
-
     // MARK: - Internal
 
     deinit {
@@ -105,4 +120,5 @@ open class KleanController<
     }
     
     let gateway: Gateway
+    let isConnectImplemented: Bool
 }
