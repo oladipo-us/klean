@@ -22,6 +22,10 @@ open class KleanListUI<ActionType: Hashable, IdentifierType: Hashable, SectionTy
         fatal_klean_notImplemented("init(coder:)")
     }
     
+    public lazy var list: UICollectionView = {
+        buildList(listLayout: listLayout)
+    }()
+    
     public lazy var listDataSource: DataSourceType = {
         buildListDataSource(
             list: list,
@@ -29,10 +33,6 @@ open class KleanListUI<ActionType: Hashable, IdentifierType: Hashable, SectionTy
     }()
     
     // MARK: - Internal
-
-    lazy var list: UICollectionView = {
-        buildList(listLayout: listLayout)
-    }()
     
     lazy var listCellRegistration: ListCellRegistrationType = {
         buildListCellRegistration()
