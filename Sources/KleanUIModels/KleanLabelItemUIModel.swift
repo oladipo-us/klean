@@ -27,11 +27,6 @@ public struct KleanLabelItemUIModel<Action: Hashable, Identifier: Hashable>: Has
         shouldShowDisclosure = ssd
     }
     
-    @available(*, deprecated, renamed: "id")
-    public var identifier: Identifier {
-        return id
-    }
-    
     public let id: Identifier
     
     public let labelString: String

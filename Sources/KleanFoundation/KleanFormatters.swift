@@ -1,8 +1,8 @@
 import Foundation
 
-public class KleanUIPresentationHelper {
-
-    public static var dateFormatter: DateFormatter = {
+public class KleanFormatters {
+    
+    public static var shortDateTimeFormatter: DateFormatter = {
         
         let dateFormatter = DateFormatter()
         

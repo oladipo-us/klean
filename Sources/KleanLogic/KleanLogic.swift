@@ -1,5 +1,6 @@
-import Combine
 import Foundation
+
+import KleanFoundation
 
 public protocol KleanLogic: ObservableObject {
     
@@ -7,5 +8,5 @@ public protocol KleanLogic: ObservableObject {
     
     init()
     
-    func configure(service: Service) -> Set<AnyCancellable>
+    func configure(service: Service) -> Set<KleanCancellable>
 }
