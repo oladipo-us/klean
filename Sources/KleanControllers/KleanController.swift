@@ -79,8 +79,10 @@ open class KleanController<
     
     // MARK: - Public
 
-    public init(gateway g: Gateway, isConnectImplemented ici: Bool = false) {
-        
+    public init(
+        gateway g: Gateway,
+        isConnectImplemented ici: Bool = false)
+    {
         gateway = g
         isConnectImplemented = ici
         
