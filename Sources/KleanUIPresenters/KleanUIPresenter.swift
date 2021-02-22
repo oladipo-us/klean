@@ -1,5 +1,6 @@
-import Combine
 import Foundation
+
+import KleanFoundation
 
 public protocol KleanUIPresenter: ObservableObject {
     
@@ -7,5 +8,5 @@ public protocol KleanUIPresenter: ObservableObject {
     
     init()
     
-    func configure(logic: Logic) -> Set<AnyCancellable>
+    func configure(logic: Logic) -> Set<KleanCancellable>
 }

@@ -20,24 +20,6 @@ open class KleanController<
 {
     // MARK: - Open Constructors
     
-    @available(*, deprecated, renamed: "constructLogic")
-    open func buildLogic() -> Logic
-    {
-        return constructLogic()
-    }
-    
-    @available(*, deprecated, renamed: "constructPresenter")
-    open func buildPresenter() -> Presenter
-    {
-        return constructPresenter()
-    }
-    
-    @available(*, deprecated, renamed: "constructService")
-    open func buildService() -> Service
-    {
-        return constructService()
-    }
-    
     open func constructLogic() -> Logic
     {
         return Logic()
@@ -78,7 +60,7 @@ open class KleanController<
         presenter: Presenter,
         ui: UI,
         controller: KleanController<UI, Presenter, Logic, Service, Gateway>
-    ) -> Set<AnyCancellable>
+    ) -> Set<KleanCancellable>
     {
         fatal_klean_abstractMethod()
     }
@@ -97,15 +79,10 @@ open class KleanController<
     public lazy var presenter: Presenter = { constructPresenter() }()
     public lazy var service: Service = { constructService() }()
     
-    public var cancellables = Set<AnyCancellable>()
+    public var cancellables = Set<KleanCancellable>()
     
     public var ui: UI {
         return view as! UI
-    }
-    
-    @available(*, deprecated, renamed: "ui")
-    public var theView: UI {
-        return ui
     }
     
     // MARK: - Internal
