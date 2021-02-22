@@ -62,7 +62,19 @@ open class KleanController<
         controller: KleanController<UI, Presenter, Logic, Service, Gateway>
     ) -> Set<KleanCancellable>
     {
-        fatal_klean_abstractMethod()
+        guard let titlePresenter = presenter as? KleanUINavigationItemTitlePresenter else {
+            
+            return  KleanCancellable.Factory.constructSet(
+                cancellableList: [])
+        }
+        
+        return KleanCancellable.Factory.constructSet(cancellableList: [
+
+            titlePresenter.navigationItemTitlePublisher
+                .sink { title in
+                    controller.navigationItem.title = title
+                },
+        ])
     }
     
     // MARK: - Public
