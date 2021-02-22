@@ -62,15 +62,27 @@ open class KleanController<
         controller: KleanController<UI, Presenter, Logic, Service, Gateway>
     ) -> Set<KleanCancellable>
     {
-        fatal_klean_abstractMethod()
+        guard let titlePresenter = presenter as? KleanUINavigationItemTitlePresenter else {
+            
+            return  KleanCancellable.Factory.constructSet(
+                cancellableList: [])
+        }
+        
+        return KleanCancellable.Factory.constructSet(cancellableList: [
+
+            titlePresenter.navigationItemTitlePublisher
+                .sink { title in
+                    controller.navigationItem.title = title
+                },
+        ])
     }
     
     // MARK: - Public
 
-    public init(gateway g: Gateway, isConnectImplemented ici: Bool = false) {
-        
+    public init(
+        gateway g: Gateway)
+    {
         gateway = g
-        isConnectImplemented = ici
         
         super.init(nibName: nil, bundle: Bundle.main)
     }
@@ -97,5 +109,4 @@ open class KleanController<
     }
     
     let gateway: Gateway
-    let isConnectImplemented: Bool
 }
