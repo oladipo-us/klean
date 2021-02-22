@@ -11,8 +11,9 @@ open class KleanListUI<ActionType: Hashable, IdentifierType: Hashable, SectionTy
     public typealias DataSourceType = UICollectionViewDiffableDataSource<SectionType, KleanLabelItemUIModel<ActionType, IdentifierType>>
     public typealias ListCellRegistrationType = UICollectionView.CellRegistration<UICollectionViewListCell, KleanLabelItemUIModel<ActionType, IdentifierType>>
     
-    required public init(translatesAutoresizingMaskIntoConstraints tamic: Bool = true) {
-        
+    required public init(
+        translatesAutoresizingMaskIntoConstraints tamic: Bool = true)
+    {
         super.init(translatesAutoresizingMaskIntoConstraints: tamic)
 
         list.autoresizingMask = [.flexibleWidth, .flexibleHeight]
