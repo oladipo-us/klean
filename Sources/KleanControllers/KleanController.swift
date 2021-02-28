@@ -14,9 +14,13 @@ open class KleanController<
     Presenter: KleanUIPresenter,
     Logic: KleanLogic,
     Service: KleanLogicService,
-    Gateway>: UIViewController where Presenter.Logic == Logic,
-                                     Logic.Service == Service,
-                                     Service.Gateway == Gateway
+    Gateway>
+:
+    UIViewController
+where
+    Presenter.Logic == Logic,
+    Logic.Service == Service,
+    Service.Gateway == Gateway
 {
     // MARK: - Open Constructors
     
@@ -45,7 +49,7 @@ open class KleanController<
         super.viewDidLoad()
         
         service.configure(gateway: gateway)
-
+        
         cancellables.formUnion(logic.configure(service: service))
         cancellables.formUnion(presenter.configure(logic: logic))
         
@@ -69,7 +73,7 @@ open class KleanController<
         }
         
         return KleanCancellable.Factory.constructSet(cancellableList: [
-
+            
             titlePresenter.navigationItemTitlePublisher
                 .sink { title in
                     controller.navigationItem.title = title
@@ -78,7 +82,7 @@ open class KleanController<
     }
     
     // MARK: - Public
-
+    
     public init(
         gateway g: Gateway)
     {
@@ -98,7 +102,7 @@ open class KleanController<
     }
     
     // MARK: - Internal
-
+    
     deinit {
         cancellables.forEach { $0.cancel() }
         cancellables.removeAll()
