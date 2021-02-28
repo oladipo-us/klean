@@ -4,7 +4,56 @@ import UIKit
 import KleanFoundation
 import KleanUIModels
 
-open class KleanListUI<ActionType: Hashable, IdentifierType: Hashable, SectionType: Hashable>: KleanUI {
+public protocol KleanListUIDelgate: class {
+    
+    associatedtype ActionType: Hashable
+    associatedtype IdentifierType: Hashable
+    associatedtype SectionType: Hashable
+    
+    func handleSelection(
+        kleanListUI: KleanListUI<ActionType, Self, IdentifierType, SectionType>,
+        labelItem: KleanLabelItemUIModel<ActionType, IdentifierType>)
+}
+
+open class KleanListUI<
+    ActionType,
+    DelegateType: KleanListUIDelgate,
+    IdentifierType,
+    SectionType>
+:
+    KleanUI,
+    UICollectionViewDelegate
+where
+    DelegateType.ActionType == ActionType,
+    DelegateType.IdentifierType == IdentifierType,
+    DelegateType.SectionType == SectionType
+{
+    // MARK: - Public - Delegation
+    
+    public func configure(delegate: DelegateType)
+    {
+        self.delegate = delegate
+    }
+    
+    // MARK: - Public - UICollectionViewDelegate Interface
+    
+    public func collectionView(
+        _ collectionView: UICollectionView,
+        didSelectItemAt indexPath: IndexPath)
+    {
+        
+        guard let labelItem = listDataSource.itemIdentifier(for: indexPath) else { return }
+        
+        delegate?.handleSelection(kleanListUI: self, labelItem: labelItem)
+    }
+    
+    // MARK: - Public - Update
+    
+    public func apply(
+        snapshot: NSDiffableDataSourceSnapshot<SectionType, KleanLabelItemUIModel<ActionType, IdentifierType>>)
+    {
+        listDataSource.apply(snapshot)
+    }
     
     // MARK: - Public
     
@@ -15,7 +64,7 @@ open class KleanListUI<ActionType: Hashable, IdentifierType: Hashable, SectionTy
         translatesAutoresizingMaskIntoConstraints tamic: Bool = true)
     {
         super.init(translatesAutoresizingMaskIntoConstraints: tamic)
-
+        
         list.autoresizingMask = [.flexibleWidth, .flexibleHeight]
         addSubview(list)
     }
@@ -24,22 +73,24 @@ open class KleanListUI<ActionType: Hashable, IdentifierType: Hashable, SectionTy
         fatal_klean_notImplemented("init(coder:)")
     }
     
-    public lazy var list: UICollectionView = {
-        
+    // MARK: - Internal
+    
+    weak var delegate: DelegateType? = nil
+    
+    lazy var list: UICollectionView = {
         return UICollectionView.Factory.construct(
+            delegate: self,
             uiCollectionViewLayout: listLayout)
     }()
     
-    public lazy var listDataSource: DataSourceType = {
+    lazy var listCellRegistration: ListCellRegistrationType = { construct_ListCellRegistration() }()
+    
+    lazy var listDataSource: DataSourceType = {
         
         return construct_ListDataSource(
             list: list,
             cellRegistration: listCellRegistration)
     }()
-    
-    // MARK: - Internal
-    
-    lazy var listCellRegistration: ListCellRegistrationType = { construct_ListCellRegistration() }()
     
     lazy var listLayout: UICollectionViewLayout = { UICollectionViewLayout.Factory.construct() }()
     
@@ -50,7 +101,7 @@ open class KleanListUI<ActionType: Hashable, IdentifierType: Hashable, SectionTy
     {
         return ListCellRegistrationType(
         ) { (cell, indexPath, item) in
-
+            
             var content = cell.defaultContentConfiguration()
             content.text = item.labelString
             cell.accessories = item.shouldShowDisclosure ? [.disclosureIndicator()] : []

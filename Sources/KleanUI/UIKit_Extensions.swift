@@ -6,12 +6,17 @@ extension UICollectionView {
     final class Factory {
     
         static func construct(
+            delegate: UICollectionViewDelegate,
             uiCollectionViewLayout: UICollectionViewLayout
         ) -> UICollectionView
         {
-            return UICollectionView(
+            let collectionView = UICollectionView(
                 frame: .zero,
                 collectionViewLayout: uiCollectionViewLayout)
+            
+            collectionView.delegate = delegate
+            
+            return collectionView
         }
     }
 }
