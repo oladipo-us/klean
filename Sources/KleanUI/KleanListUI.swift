@@ -47,6 +47,14 @@ where
         delegate?.handleSelection(kleanListUI: self, labelItem: labelItem)
     }
     
+    // MARK: - Public - Update
+    
+    public func apply(
+        snapshot: NSDiffableDataSourceSnapshot<SectionType, KleanLabelItemUIModel<ActionType, IdentifierType>>)
+    {
+        listDataSource.apply(snapshot)
+    }
+    
     // MARK: - Public
     
     public typealias DataSourceType = UICollectionViewDiffableDataSource<SectionType, KleanLabelItemUIModel<ActionType, IdentifierType>>
