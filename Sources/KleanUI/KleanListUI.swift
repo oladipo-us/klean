@@ -28,6 +28,13 @@ where
     DelegateType.IdentifierType == IdentifierType,
     DelegateType.SectionType == SectionType
 {
+    // MARK: - Public - Delegation
+    
+    public func configure(delegate: DelegateType)
+    {
+        self.delegate = delegate
+    }
+    
     // MARK: - Public - UICollectionViewDelegate Interface
     
     public func collectionView(
@@ -60,6 +67,8 @@ where
     
     // MARK: - Internal
     
+    weak var delegate: DelegateType? = nil
+    
     lazy var list: UICollectionView = {
         return UICollectionView.Factory.construct(
             delegate: self,
@@ -78,8 +87,6 @@ where
     lazy var listLayout: UICollectionViewLayout = { UICollectionViewLayout.Factory.construct() }()
     
     // MARK: - Private
-    
-    private weak var delegate: DelegateType? = nil
     
     private func construct_ListCellRegistration(
     ) -> ListCellRegistrationType
