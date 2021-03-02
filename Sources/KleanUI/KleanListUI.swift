@@ -4,36 +4,17 @@ import UIKit
 import KleanFoundation
 import KleanUIModels
 
-public protocol KleanListUIDelgate: class {
-    
-    associatedtype ActionType: Hashable
-    associatedtype IdentifierType: Hashable
-    associatedtype SectionType: Hashable
-    
-    func handleSelection(
-        kleanListUI: KleanListUI<ActionType, Self, IdentifierType, SectionType>,
-        labelItem: KleanLabelItemUIModel<ActionType, IdentifierType>)
-}
-
 open class KleanListUI<
-    ActionType,
-    DelegateType: KleanListUIDelgate,
-    IdentifierType,
-    SectionType>
+    ActionType: Hashable,
+    IdentifierType: Hashable,
+    SectionType: Hashable>
 :
     KleanUI,
     UICollectionViewDelegate
-where
-    DelegateType.ActionType == ActionType,
-    DelegateType.IdentifierType == IdentifierType,
-    DelegateType.SectionType == SectionType
 {
-    // MARK: - Public - Delegation
+    // MARK: - Public - Publisher
     
-    public func configure(delegate: DelegateType)
-    {
-        self.delegate = delegate
-    }
+    @Published public var selectedItem: KleanLabelItemUIModel<ActionType, IdentifierType>? = nil
     
     // MARK: - Public - UICollectionViewDelegate Interface
     
@@ -41,10 +22,9 @@ where
         _ collectionView: UICollectionView,
         didSelectItemAt indexPath: IndexPath)
     {
-        
         guard let labelItem = listDataSource.itemIdentifier(for: indexPath) else { return }
         
-        delegate?.handleSelection(kleanListUI: self, labelItem: labelItem)
+        selectedItem = labelItem
     }
     
     // MARK: - Public - Update
@@ -74,8 +54,6 @@ where
     }
     
     // MARK: - Internal
-    
-    weak var delegate: DelegateType? = nil
     
     lazy var list: UICollectionView = {
         return UICollectionView.Factory.construct(
